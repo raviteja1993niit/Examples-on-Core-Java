@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/jms
+                     http://www.springframework.org/schema/jms/spring-jms-2.5.xsd">                
+  
+<import resource="spring_config.xml"/>
+	
+  	<bean id="myBulkPMMessageListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer" >
+		<property name="connectionFactory" ref="aqConnectionFactory" />
+	<!-- 	<property name="connectionFactory" ref="psxAmqFactory" /> -->
+		<property name="messageListener" ref="RRQMessageListener" />
+		<!-- <property name="destinationName" value="PSX_NSP_PM_QUEUE_1" /> -->
+			<property name="destinationName" value="PSX_EOD_LISTENER_Q" />
+		<property name="concurrentConsumers" value="1" />		 
+	</bean>	 	
+	
+	
+	<bean id="RRQMessageListener" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+		<constructor-arg>
+			<bean id="RRQListener" class="com.posidex.eod.impl.EodDataProcessor">
+				<!-- <property name="jmsTemplate" ref="jmsTemplate"></property>	 -->
+				
+				<property name="jmsTemplate" ref="jmsTemplate"></property>
+				<!-- <property name="amqjmsTemplate" ref="amqjmsTemplate"></property> --> 
+				<!-- <property name="isFallBackEnabled" value="false"></property> -->						
+			</bean>
+		</constructor-arg>
+		<property name="defaultListenerMethod" value="notify" />
+		<property name="messageConverter">
+			<null />
+		</property>
+	</bean>   
+	   
+	
+	
+</beans>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                     http://www.springframework.org/schema/beans/spring-beans.xsd
+                     http://www.springframework.org/schema/jms
+                     http://www.springframework.org/schema/jms/spring-jms-2.5.xsd">
+                     
+    
+ 
+	                 
+    <!-- <bean id="NoSqlDataSource" destroy-method="close"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="${database.driverClassName}" />
+		<property name="url" value="${database.url}" />
+		<property name="username" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+		<property name ="defaultAutoCommit" value = "false" />
+		<property name="maxTotal" value="100"/>
+		<property name="maxIdle" value="100"/>
+	</bean>   -->
+	
+	<!-- <bean id="dataSource" destroy-method="close"
+		class="org.apache.commons.dbcp2.BasicDataSource">
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@192.168.1.148:1524:pdborcl" />
+		<property name="username" value="bajaj_multibase" />
+		<property name="password" value="psx123" />
+		<property name ="defaultAutoCommit" value = "false" />
+		<property name="maxTotal" value="100"/>
+		<property name="maxIdle" value="100"/>
+	</bean>      -->            
+                     
+    <bean id="aqConnectionFactoryInitialiser" class="posidex.aqjms.spring.OracleAqConnectionFactoryInitialiser">
+        <property name="URL" value="jdbc:oracle:thin:@192.168.1.148:1524:pdborcl"/>
+       <!--  <property name="userName" value="bajaj_migration2"/>
+        <property name="password" value="uh85Snm/1Ew="/> -->
+         <property name="userName" value="bajajha_dev"/>
+        <property name="password" value="uh85Snm/1Ew="/>
+    </bean>
+	
+	<bean id="aqConnectionFactory" factory-bean="aqConnectionFactoryInitialiser" factory-method="createConnectionFactory" />
+	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+	    <property name="connectionFactory" ref="aqConnectionFactory"/> 
+	</bean>
+	
+	
+	
+	
+	
+<!-- 	<bean id="psxAmqFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+	<property name="brokerURL"	value="tcp://http://192.168.1.213:2626?wireFormat.maxInactivityDuration=0" />
+		<property name="brokerURL"	value="tcp://10.128.1.189:41213?wireFormat.maxInactivityDuration=0" />
+		<property name="brokerURL"	value="tcp://192.168.1.53:61616?wireFormat.maxInactivityDuration=0" />
+	</bean>
+
+	ActiveMQ PooledConnectionFactory Settings
+	<bean id="psxAmqConnPool" abstract="false" class="org.apache.activemq.pool.PooledConnectionFactory"
+		destroy-method="stop">
+		<property name="connectionFactory" ref="psxAmqFactory" />
+		<property name="maxConnections" value="200" />
+		
+	</bean>
+	<bean id="amqjmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory">
+			<ref bean="psxAmqConnPool" />
+		</property>
+		<property name="sessionAcknowledgeMode" value="2"></property>
+		<property name="deliveryMode" value="2"></property>
+	</bean> -->
+	</beans>
