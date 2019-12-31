@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Prime360ClientService1V2
+Implementation-Version: ClientV1.2
+Built-By: raju
+Implementation-Vendor-Id: com.example
+Build-Jdk: 1.8.0_92
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/Prime360
+Created-By: Maven Integration for Eclipse
+
